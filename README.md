@@ -1,6 +1,6 @@
-# Secure Data Retrieval System - Modern Rewrite
+# Secure Data Retrieval System - SECURE MESSENGER
 
-A modern, production-ready Django application for secure data retrieval with end-to-end encryption, certificate-based authentication, and role-based access control.
+A modern, production-ready application for secure data retrieval with end-to-end encryption, certificate-based authentication, and role-based access control.
 
 ## 🚀 Features
 
@@ -61,7 +61,7 @@ SecureMessenger/
 
 1. **Navigate to the project directory:**
    ```bash
-   cd "d:\user\Downloads\IV year MiniProject\Secure data Retrieval Project\MPNS04\MPNS04PROJECT"
+   cd "c:\desktop\Secure_messenger"
    ```
 
 2. **Activate virtual environment:**
