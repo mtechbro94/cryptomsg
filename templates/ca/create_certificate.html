@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Create Certificate - Secure Data Retrieval{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-light p-4">
+                    <h2 class="mb-0">
+                        <i class="fas fa-certificate"></i> Create Digital Certificate
+                    </h2>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Message Info -->
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Cloud Authority Action Required</strong><br>
+                        Review the message and provide a digital certificate signature to validate this message.
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p>
+                                <strong>From:</strong><br>
+                                <i class="fas fa-user-circle"></i>
+                                {{ message.sender.get_full_name|default:message.sender.username }}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>
+                                <strong>To:</strong><br>
+                                <i class="fas fa-user-circle"></i>
+                                {{ message.receiver.get_full_name|default:message.receiver.username }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <p>
+                                <strong>Subject:</strong><br>
+                                {{ message.subject }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="mb-4">
+                        <h5>
+                            <i class="fas fa-lock"></i> Decrypted Message Content
+                        </h5>
+                        <div class="alert alert-light" style="border: 1px solid #ddd; border-radius: 6px; padding: 15px;">
+                            {{ decrypted_content|linebreaks }}
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Certificate Form -->
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="{{ form.certificate_data.id_for_label }}" class="form-label">
+                                <i class="fas fa-signature"></i> Digital Certificate/Signature
+                            </label>
+                            {{ form.certificate_data }}
+                            {% if form.certificate_data.errors %}
+                                <div class="invalid-feedback d-block" style="color: #dc3545;">
+                                    {{ form.certificate_data.errors.0 }}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted d-block mt-2">
+                                Enter the digital signature or certificate data that will be attached to this message.
+                            </small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.notes.id_for_label }}" class="form-label">
+                                Notes (Optional)
+                            </label>
+                            {{ form.notes }}
+                            <small class="form-text text-muted d-block mt-2">
+                                Add any notes or comments about this certification.
+                            </small>
+                        </div>
+
+                        <div class="d-grid gap-2 d-sm-flex justify-content-between">
+                            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary px-4">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-danger px-4">
+                                <i class="fas fa-certificate"></i> Issue Certificate
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

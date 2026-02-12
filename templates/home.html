@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Secure Data Retrieval{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row align-items-center" style="min-height: 500px;">
+        <div class="col-lg-6">
+            <h1 class="display-4 fw-bold mb-4" style="color: #2c3e50;">
+                <i class="fas fa-lock"></i> Secure Data Retrieval System
+            </h1>
+            <p class="lead text-muted mb-4">
+                A modern, secure messaging platform with encryption and certificate-based authentication. 
+                Connect safely with Cloud Authority, Routers, Publishers, and Users.
+            </p>
+            <div class="d-grid gap-2 d-sm-flex">
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                    <a href="{% url 'register' %}" class="btn btn-outline-primary btn-lg px-4">
+                        <i class="fas fa-user-plus"></i> Register
+                    </a>
+                {% else %}
+                    <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg px-4">
+                        <i class="fas fa-th-large"></i> Go to Dashboard
+                    </a>
+                    <a href="{% url 'send_message' %}" class="btn btn-outline-primary btn-lg px-4">
+                        <i class="fas fa-envelope"></i> Send Message
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-5">
+                    <h4 class="card-title mb-4">
+                        <i class="fas fa-shield-alt"></i> Key Features
+                    </h4>
+                    <ul class="list-unstyled feature-list">
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <strong>End-to-End Encryption</strong> - Messages encrypted with Fernet encryption
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <strong>Certificate Authority</strong> - Digital certificates for message verification
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <strong>Router Network</strong> - Secure message routing and acceptance
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <strong>Audit Logs</strong> - Complete message history and tracking
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <strong>Role-Based Access</strong> - Different permissions for each user role
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle text-success"></i>
+                            <strong>Modern UI</strong> - Responsive design for all devices
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Roles Section -->
+    <div class="row mt-5">
+        <h2 class="mb-4">
+            <i class="fas fa-users"></i> User Roles
+        </h2>
+        
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <span class="role-badge ca">CA</span>
+                    </h5>
+                    <h6 class="card-subtitle mb-3">Cloud Authority</h6>
+                    <p class="card-text">
+                        Issues digital certificates and validates messages from the router.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <span class="role-badge router">Router</span>
+                    </h5>
+                    <h6 class="card-subtitle mb-3">Router</h6>
+                    <p class="card-text">
+                        Accepts messages from users and forwards them to Cloud Authority for certification.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <span class="role-badge publisher">Publisher</span>
+                    </h5>
+                    <h6 class="card-subtitle mb-3">Publisher</h6>
+                    <p class="card-text">
+                        Can send encrypted messages and monitor their status through the network.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <span class="role-badge user">User</span>
+                    </h5>
+                    <h6 class="card-subtitle mb-3">Regular User</h6>
+                    <p class="card-text">
+                        Send and receive encrypted messages with full encryption and security.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

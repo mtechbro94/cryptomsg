@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}User Dashboard - Secure Data Retrieval{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1>
+                <i class="fas fa-th-large"></i> Dashboard
+                <span class="role-badge user">{{ role_display }}</span>
+            </h1>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-envelope"></i> Messages Sent
+                    </h5>
+                    <h2 class="text-primary">{{ sent_count }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-inbox"></i> Messages Received
+                    </h5>
+                    <h2 class="text-success">{{ received_count }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-lock"></i> Encrypted
+                    </h5>
+                    <h2 class="text-info">
+                        <i class="fas fa-shield-alt"></i>
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <a href="{% url 'send_message' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-plus-circle"></i> Send New Message
+            </a>
+            <a href="{% url 'inbox' %}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-inbox"></i> View Inbox
+            </a>
+            <a href="{% url 'outbox' %}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-share"></i> View Outbox
+            </a>
+        </div>
+    </div>
+
+    <!-- Recent Messages -->
+    {% if recent_received %}
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mb-3">
+                    <i class="fas fa-history"></i> Recent Messages
+                </h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>From</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for msg in recent_received %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ msg.sender.get_full_name|default:msg.sender.username }}</strong>
+                                    </td>
+                                    <td>{{ msg.subject }}</td>
+                                    <td>
+                                        <span class="status-badge {{ msg.status|lower }}">
+                                            {{ msg.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td>{{ msg.timestamp|date:"M d, Y H:i" }}</td>
+                                    <td>
+                                        <a href="{% url 'view_message' msg.id %}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-eye"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i>
+            No messages yet. <a href="{% url 'send_message' %}">Send your first message</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

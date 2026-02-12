@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Send Message - Secure Data Retrieval{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-5">
+                    <h2 class="card-title mb-4">
+                        <i class="fas fa-envelope"></i> Send Encrypted Message
+                    </h2>
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="{{ form.subject.id_for_label }}" class="form-label">Subject</label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                                <div class="invalid-feedback d-block" style="color: #dc3545;">
+                                    {{ form.subject.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.receiver.id_for_label }}" class="form-label">Send To</label>
+                            {{ form.receiver }}
+                            {% if form.receiver.errors %}
+                                <div class="invalid-feedback d-block" style="color: #dc3545;">
+                                    {{ form.receiver.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.content.id_for_label }}" class="form-label">Message Content</label>
+                            {{ form.content }}
+                            {% if form.content.errors %}
+                                <div class="invalid-feedback d-block" style="color: #dc3545;">
+                                    {{ form.content.errors.0 }}
+                                </div>
+                            {% endif %}
+                            <small class="form-text text-muted d-block mt-2">
+                                <i class="fas fa-lock"></i> Your message will be encrypted with AES-256 encryption using Fernet.
+                            </small>
+                        </div>
+
+                        <div class="d-grid gap-2 d-sm-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
+                            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary px-4">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

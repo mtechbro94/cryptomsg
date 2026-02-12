@@ -1,0 +1,5 @@
+1) open "terminal"
+
+2) open "command prompt"
+
+3) enter command "python manage.py runserver"

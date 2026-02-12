@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}View Message - Secure Data Retrieval{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-light p-4">
+                    <h2 class="mb-0">
+                        <i class="fas fa-envelope-open"></i> {{ message.subject }}
+                    </h2>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Message Info -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p>
+                                <strong>From:</strong><br>
+                                <i class="fas fa-user-circle"></i>
+                                {{ message.sender.get_full_name|default:message.sender.username }}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>
+                                <strong>To:</strong><br>
+                                <i class="fas fa-user-circle"></i>
+                                {{ message.receiver.get_full_name|default:message.receiver.username }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p>
+                                <strong>Status:</strong><br>
+                                <span class="status-badge {{ message.status|lower }}">
+                                    {{ message.get_status_display }}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>
+                                <strong>Date:</strong><br>
+                                {{ message.timestamp|date:"M d, Y - H:i" }}
+                            </p>
+                        </div>
+                    </div>
+
+                    {% if message.certificate %}
+                        <div class="alert alert-success">
+                            <i class="fas fa-certificate"></i>
+                            <strong>Certificate Verified</strong><br>
+                            This message has been signed by the Cloud Authority.
+                        </div>
+                    {% endif %}
+
+                    <hr>
+
+                    <!-- Message Content -->
+                    <div class="mb-4">
+                        <h5>
+                            <i class="fas fa-lock"></i> Message Content (Decrypted)
+                        </h5>
+                        <div class="alert alert-light" style="border: 1px solid #ddd; border-radius: 6px; padding: 15px;">
+                            {{ content|linebreaks }}
+                        </div>
+                    </div>
+
+                    <!-- Message Logs -->
+                    {% if message.logs.all %}
+                        <hr>
+                        <h5 class="mb-3">
+                            <i class="fas fa-history"></i> Message History
+                        </h5>
+                        <div class="timeline">
+                            {% for log in message.logs.all %}
+                                <div class="mb-3">
+                                    <p class="text-muted mb-1">
+                                        <small>{{ log.timestamp|date:"M d, Y - H:i" }}</small>
+                                    </p>
+                                    <p>
+                                        <strong>{{ log.get_log_type_display }}</strong>
+                                        by {{ log.actor.get_full_name|default:log.actor.username }}
+                                    </p>
+                                    {% if log.notes %}
+                                        <p class="text-muted"><em>{{ log.notes }}</em></p>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <!-- Back Button -->
+                    <div class="d-grid gap-2 d-sm-flex">
+                        <a href="{% url 'inbox' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Inbox
+                        </a>
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-primary">
+                            <i class="fas fa-th-large"></i> Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

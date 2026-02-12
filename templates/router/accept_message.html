@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Accept Message - Secure Data Retrieval{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-light p-4">
+                    <h2 class="mb-0">
+                        <i class="fas fa-check"></i> Accept Message
+                    </h2>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Message Info -->
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Review the message details below and click Accept to forward it to Cloud Authority for certification.</strong>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p>
+                                <strong>From:</strong><br>
+                                <i class="fas fa-user-circle"></i>
+                                {{ message.sender.get_full_name|default:message.sender.username }}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>
+                                <strong>To:</strong><br>
+                                <i class="fas fa-user-circle"></i>
+                                {{ message.receiver.get_full_name|default:message.receiver.username }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <p>
+                                <strong>Subject:</strong><br>
+                                {{ message.subject }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="mb-4">
+                        <h5>
+                            <i class="fas fa-lock"></i> Message Content (Encrypted)
+                        </h5>
+                        <div class="alert alert-light" style="border: 1px solid #ddd; border-radius: 6px; padding: 15px; word-break: break-all;">
+                            <small>{{ message.encrypted_content|truncatewords:50 }}</small>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Accept Form -->
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2 d-sm-flex justify-content-between">
+                            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary px-4">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-success px-4">
+                                <i class="fas fa-check"></i> Accept & Forward
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

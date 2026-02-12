@@ -1,0 +1,4 @@
+Django==4.2.5
+cryptography==41.0.3
+mysql-connector-python
+Pillow==10.0.0
